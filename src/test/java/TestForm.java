@@ -11,11 +11,11 @@ import java.util.Random;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-public class TestForm extends TestBase{
+public class TestForm extends TestBase {
 
     @Test
     @DisplayName("Test formularza")
-    void testForm() {
+    void testForm() throws InterruptedException {
         driver.get("https://seleniumui.moderntester.pl/form.php");
         driver.manage().window().maximize();
 
@@ -57,10 +57,30 @@ public class TestForm extends TestBase{
         File file = new File("src/resources/sample.pdf");
         uploadFile.sendKeys(file.getAbsolutePath());
 
+        //---------------------
+        File dir = new File("src" + File.separator + "download");
+        int actualDirFiles;
+
+        if (dir != null && dir.length() > 0) {
+            actualDirFiles = dir.listFiles().length;
+        } else {
+            actualDirFiles = 0;
+        }
+
+        //---------------------
+        WebElement downloadBtn = driver.findElement(By.linkText("Test File to Download"));
+        downloadBtn.click();
+
+        //---------------------
         WebElement submitBtn = driver.findElement(By.cssSelector("button[type=submit]"));
         submitBtn.click();
 
-//---------------------
+        //---------------------
+        int dirFilesIsIncr = dir.listFiles().length;
+
+        assertThat(actualDirFiles + 1, equalTo(dirFilesIsIncr));
+
+        //---------------------
         WebElement validateMsg = driver.findElement(By.cssSelector("#validator-message"));
         String msgToValidate = "Form send with success";
         assertThat(validateMsg.getText(), equalTo(msgToValidate));
