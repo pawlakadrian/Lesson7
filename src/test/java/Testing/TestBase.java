@@ -1,3 +1,5 @@
+package Testing;
+
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -5,12 +7,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 public class TestBase {
+    private static Logger logger = LoggerFactory.getLogger(TestBase.class);
 
     WebDriver driver;
 
@@ -19,6 +24,7 @@ public class TestBase {
     @BeforeAll
     static void setDriver() {
         WebDriverManager.chromedriver().setup();
+        logger.debug("Webdriver initialized");
     }
 
     @BeforeEach
@@ -28,10 +34,12 @@ public class TestBase {
         options.setExperimentalOption("prefs", prefs);
         options.addArguments("start-maximized");
         driver = new ChromeDriver(options);
+        logger.debug("Set properties to chrome driver");
     }
 
     @AfterEach
     void tearDown() {
         driver.quit();
+        logger.debug("Browser closed properly");
     }
 }
