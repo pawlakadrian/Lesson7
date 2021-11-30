@@ -19,14 +19,14 @@ public class TestBase {
     @BeforeAll
     static void setDriver() {
         WebDriverManager.chromedriver().setup();
-        Map<String, Object> prefs = new HashMap<String, Object>();
-        prefs.put("download.default_directory",  System.getProperty("user.dir")+ File.separator + "src" + File.separator + "download");
-        options.setExperimentalOption("prefs", prefs);
-        ChromeDriver driver = new ChromeDriver(options);
     }
 
     @BeforeEach
     void setup() {
+        Map<String, Object> prefs = new HashMap<>();
+        prefs.put("download.default_directory",  System.getProperty("user.dir")+ File.separator + "src" + File.separator + "download");
+        options.setExperimentalOption("prefs", prefs);
+        options.addArguments("start-maximized");
         driver = new ChromeDriver(options);
     }
 

@@ -21,7 +21,6 @@ public class TestForm extends TestBase {
     void testForm() throws InterruptedException {
         driver.get("https://seleniumui.moderntester.pl/form.php");
         logger.info("Open seleniumui.moderntester.pl website");
-        driver.manage().window().maximize();
 
         WebElement firstName = driver.findElement(By.cssSelector("#inputFirstName3"));
         firstName.sendKeys("Adrian");
